@@ -48,12 +48,14 @@ def get_leagues(db: Session, skip: int = 0, limit: int = 100,
 
 
 def get_teams(db: Session, skip: int = 0, limit: int = 100, 
-              min_last_changed_date: date = None, 
+              min_last_changed_date: date = None, team_id: int = None,
               team_name: str = None, league_id: int = None):
     query = db.query(models.Team)
     if min_last_changed_date:
         query = query.filter(
             models.Team.last_changed_date >= min_last_changed_date)
+    if team_id:
+        query = query.filter(models.Team.team_id == team_id)
     if team_name: 
         query = query.filter(models.Team.team_name == team_name)
     if league_id: 
